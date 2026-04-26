@@ -1,0 +1,81 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        (request.auth.token.email == "kaalekelvin47@gmail.com" && request.auth.token.email_verified == true) || 
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isSignedIn() && request.auth.uid == userId;
+      allow update: if isOwner(userId);
+    }
+
+    // Inventory collection
+    match /inventory/{itemId} {
+      function isValidStockItem(data) {
+        return data.keys().hasAll(['name', 'quantity', 'ownerId', 'createdAt', 'updatedAt']) &&
+               data.name is string && data.name.size() <= 200 &&
+               data.quantity is number &&
+               data.ownerId == request.auth.uid &&
+               data.price is number &&
+               data.category is string &&
+               data.createdAt is string &&
+               data.updatedAt is string;
+      }
+
+      allow read: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidStockItem(request.resource.data);
+      allow update: if isSignedIn() && 
+                    resource.data.ownerId == request.auth.uid &&
+                    isValidStockItem(request.resource.data) &&
+                    request.resource.data.ownerId == resource.data.ownerId;
+      allow delete: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+    }
+
+    // Transactions collection
+    match /transactions/{txId} {
+      function isValidTransaction(data) {
+        return data.keys().hasAll(['itemId', 'type', 'quantity', 'ownerId', 'timestamp']) &&
+               data.itemId is string &&
+               data.type in ['add', 'remove', 'adjustment'] &&
+               data.quantity is number &&
+               data.ownerId == request.auth.uid &&
+               data.timestamp is string;
+      }
+
+      allow read: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() && isValidTransaction(request.resource.data);
+      // Transactions should be immutable
+      allow update, delete: if false;
+    }
+    
+    // Connection test doc
+    match /test/connection {
+      allow read: if true;
+    }
+  }
+}
