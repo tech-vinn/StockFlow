@@ -128,11 +128,18 @@ export function useInventory(userId: string | undefined) {
     }
   };
 
-  const adjustStock = async (item: StockItem, amount: number, reason: string) => {
+  const recordTransaction = async (
+    item: StockItem,
+    type: 'add' | 'remove' | 'adjustment',
+    amount: number,
+    reason: string,
+    unitPrice?: number,
+    unitCost?: number
+  ) => {
     if (!userId || !item.id) return;
     try {
-      const newQuantity = Math.max(0, item.quantity + amount);
-      const type = amount >= 0 ? 'add' : 'remove';
+      const quantityChange = type === 'remove' ? -Math.abs(amount) : Math.abs(amount);
+      const newQuantity = Math.max(0, item.quantity + quantityChange);
       const now = new Date().toISOString();
 
       const itemRef = doc(db, 'inventory', item.id);
@@ -141,7 +148,7 @@ export function useInventory(userId: string | undefined) {
         updatedAt: now
       });
 
-      await addDoc(collection(db, 'transactions'), {
+      const txData: any = {
         itemId: item.id,
         itemName: item.name,
         type,
@@ -151,7 +158,12 @@ export function useInventory(userId: string | undefined) {
         reason,
         ownerId: userId,
         timestamp: now
-      });
+      };
+      
+      if (unitCost !== undefined) txData.unitCost = unitCost;
+      if (unitPrice !== undefined) txData.unitPrice = unitPrice;
+
+      await addDoc(collection(db, 'transactions'), txData);
     } catch (error) {
       handleFirestoreError(error, OperationType.UPDATE, `inventory/${item.id}`);
     }
@@ -166,5 +178,5 @@ export function useInventory(userId: string | undefined) {
     }
   };
 
-  return { items, transactions, loading, addItem, updateItem, adjustStock, removeItem };
+  return { items, transactions, loading, addItem, updateItem, recordTransaction, removeItem };
 }

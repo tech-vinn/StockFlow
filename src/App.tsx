@@ -16,7 +16,9 @@ import StatsGrid from './components/dashboard/StatsGrid';
 import StockChart from './components/dashboard/StockChart';
 import InventoryTable from './components/inventory/InventoryTable';
 import TransactionsList from './components/inventory/TransactionsList';
+import ReportsAnalytics from './components/reports/ReportsAnalytics';
 import StockModal from './components/inventory/StockModal';
+import AdjustModal from './components/inventory/AdjustModal';
 import TeamManagement from './components/team/TeamManagement';
 import Login from './components/auth/Login';
 import { Plus, Bell, X } from 'lucide-react';
@@ -32,7 +34,7 @@ export default function App() {
     loading: itemsLoading, 
     addItem, 
     updateItem, 
-    adjustStock, 
+    recordTransaction, 
     removeItem 
   } = useInventory(user?.uid);
 
@@ -42,6 +44,7 @@ export default function App() {
   const [activeTab, setActiveTab] = React.useState('dashboard');
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [editingItem, setEditingItem] = React.useState<StockItem | undefined>(undefined);
+  const [adjustingItem, setAdjustingItem] = React.useState<StockItem | null>(null);
 
   if (authLoading) {
     return (
@@ -120,7 +123,7 @@ export default function App() {
             <InventoryTable 
               items={items} 
               onEdit={handleEdit}
-              onAdjust={adjustStock}
+              onAdjust={setAdjustingItem}
               onDelete={removeItem}
             />
           </div>
@@ -144,6 +147,9 @@ export default function App() {
               <h1 className="text-3xl font-bold">Reports</h1>
               <p className="text-gray-500">Detailed analytics and stock performance</p>
             </header>
+            
+            <ReportsAnalytics items={items} transactions={transactions} />
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <StockChart items={items} />
               <div className="bg-white p-6 rounded-2xl border border-gray-100 h-full">
@@ -216,6 +222,24 @@ export default function App() {
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleSubmit}
         initialData={editingItem}
+      />
+
+      <AdjustModal
+        isOpen={!!adjustingItem}
+        onClose={() => setAdjustingItem(null)}
+        item={adjustingItem}
+        onSubmit={(amount, reason, type, unitValue) => {
+          if (adjustingItem) {
+            recordTransaction(
+              adjustingItem, 
+              type === 'buy' ? 'add' : type === 'sell' ? 'remove' : 'adjustment', 
+              amount, 
+              reason, 
+              type === 'sell' ? unitValue : undefined,
+              type === 'buy' ? unitValue : undefined
+            );
+          }
+        }}
       />
     </Shell>
   );

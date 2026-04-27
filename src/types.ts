@@ -6,6 +6,7 @@ export interface StockItem {
   quantity: number;
   unit: string;
   price: number;
+  cost?: number;
   lowStockThreshold: number;
   ownerId: string;
   createdAt: string;
@@ -20,6 +21,8 @@ export interface StockTransaction {
   quantity: number;
   previousQuantity: number;
   newQuantity: number;
+  unitCost?: number;
+  unitPrice?: number;
   reason: string;
   ownerId: string;
   timestamp: string;

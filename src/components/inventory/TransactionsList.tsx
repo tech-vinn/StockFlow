@@ -11,7 +11,7 @@ import {
   History
 } from 'lucide-react';
 import { StockTransaction } from '../../types';
-import { formatDate, cn } from '../../lib/utils';
+import { formatDate, cn, formatCurrency } from '../../lib/utils';
 
 interface TransactionsListProps {
   transactions: StockTransaction[];
@@ -65,7 +65,19 @@ export default function TransactionsList({ transactions }: TransactionsListProps
                   {getIcon(tx.type)}
                 </div>
                 <div>
-                  <div className="font-semibold text-slate-900">{tx.itemName || 'Deleted Item'}</div>
+                  <div className="font-semibold text-slate-900">
+                    {tx.itemName || 'Deleted Item'}
+                    {tx.type === 'remove' && tx.unitPrice && (
+                      <span className="ml-2 text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
+                        Sold @ {formatCurrency(tx.unitPrice)}
+                      </span>
+                    )}
+                    {tx.type === 'add' && tx.unitCost && (
+                      <span className="ml-2 text-xs font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md">
+                        Bought @ {formatCurrency(tx.unitCost)}
+                      </span>
+                    )}
+                  </div>
                   <div className="text-xs text-slate-500 mt-0.5 flex items-center">
                     <span>{tx.reason}</span>
                     <span className="mx-2 text-slate-300">•</span>

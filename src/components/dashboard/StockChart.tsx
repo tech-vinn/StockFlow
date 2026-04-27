@@ -1,4 +1,5 @@
 import React from 'react';
+import { BarChart as BarChartIcon } from 'lucide-react';
 import { 
   BarChart, 
   Bar, 
@@ -32,7 +33,7 @@ export default function StockChart({ items }: StockChartProps) {
     return (
       <div className="bg-white p-8 rounded-2xl border border-gray-100 flex flex-col items-center justify-center min-h-[300px]">
         <div className="p-3 bg-gray-50 rounded-full mb-4">
-          <BarChart className="w-8 h-8 text-gray-300" />
+          <BarChartIcon className="w-8 h-8 text-gray-300" />
         </div>
         <p className="text-gray-500 font-medium">No stock data to visualize</p>
       </div>

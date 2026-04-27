@@ -10,7 +10,8 @@
         "category": { "type": "string", "description": "Category ID or name" },
         "quantity": { "type": "number", "description": "Current stock quantity" },
         "unit": { "type": "string", "description": "Unit of measurement (e.g., pcs, kg)" },
-        "price": { "type": "number", "description": "Unit price" },
+        "price": { "type": "number", "description": "Selling Unit price" },
+        "cost": { "type": "number", "description": "Cost per unit to purchase" },
         "lowStockThreshold": { "type": "number", "description": "Quantity at which to trigger a low stock alert" },
         "ownerId": { "type": "string", "description": "UID of the user who owns this item" },
         "createdAt": { "type": "string", "format": "date-time" },
@@ -28,6 +29,8 @@
         "quantity": { "type": "number", "description": "Quantity changed" },
         "previousQuantity": { "type": "number", "description": "Quantity before transaction" },
         "newQuantity": { "type": "number", "description": "Quantity after transaction" },
+        "unitCost": { "type": "number", "description": "Cost per unit if purchase" },
+        "unitPrice": { "type": "number", "description": "Price per unit if sale" },
         "reason": { "type": "string", "description": "Reason for the transaction" },
         "ownerId": { "type": "string", "description": "UID of the user" },
         "timestamp": { "type": "string", "format": "date-time" }

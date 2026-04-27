@@ -42,6 +42,7 @@ service cloud.firestore {
                data.quantity is number &&
                data.ownerId == request.auth.uid &&
                data.price is number &&
+               (!('cost' in data.keys()) || data.cost is number) &&
                data.category is string &&
                data.createdAt is string &&
                data.updatedAt is string;
@@ -63,6 +64,8 @@ service cloud.firestore {
                data.itemId is string &&
                data.type in ['add', 'remove', 'adjustment'] &&
                data.quantity is number &&
+               (!('unitCost' in data.keys()) || data.unitCost is number) &&
+               (!('unitPrice' in data.keys()) || data.unitPrice is number) &&
                data.ownerId == request.auth.uid &&
                data.timestamp is string;
       }

@@ -10,7 +10,7 @@ import { formatCurrency, cn } from '../../lib/utils';
 
 interface InventoryTableProps {
   items: StockItem[];
-  onAdjust: (item: StockItem, amount: number, reason: string) => void;
+  onAdjust: (item: StockItem) => void;
   onEdit: (item: StockItem) => void;
   onDelete: (id: string) => void;
 }
@@ -112,6 +112,13 @@ export default function InventoryTable({ items, onAdjust, onEdit, onDelete }: In
                 </td>
                 <td className="px-6 py-4 text-right">
                   <div className="flex items-center justify-end space-x-2 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                    <button 
+                      onClick={() => onAdjust(item)}
+                      className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors font-semibold text-xs px-2"
+                      title="Record Transaction"
+                    >
+                      Trade
+                    </button>
                     <button 
                       onClick={() => onEdit(item)}
                       className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
