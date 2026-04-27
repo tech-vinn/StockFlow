@@ -13,6 +13,7 @@
         "price": { "type": "number", "description": "Selling Unit price" },
         "cost": { "type": "number", "description": "Cost per unit to purchase" },
         "lowStockThreshold": { "type": "number", "description": "Quantity at which to trigger a low stock alert" },
+        "expiryDate": { "type": "string", "format": "date", "description": "Optional expiry date of the item" },
         "ownerId": { "type": "string", "description": "UID of the user who owns this item" },
         "createdAt": { "type": "string", "format": "date-time" },
         "updatedAt": { "type": "string", "format": "date-time" }

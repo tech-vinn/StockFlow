@@ -19,6 +19,7 @@ export default function StockModal({ isOpen, onClose, onSubmit, initialData }: S
     unit: 'pcs',
     price: 0,
     cost: 0,
+    expiryDate: '',
     lowStockThreshold: 5
   });
 
@@ -32,6 +33,7 @@ export default function StockModal({ isOpen, onClose, onSubmit, initialData }: S
         unit: initialData.unit,
         price: initialData.price,
         cost: initialData.cost || 0,
+        expiryDate: initialData.expiryDate || '',
         lowStockThreshold: initialData.lowStockThreshold
       });
     } else {
@@ -43,6 +45,7 @@ export default function StockModal({ isOpen, onClose, onSubmit, initialData }: S
         unit: 'pcs',
         price: 0,
         cost: 0,
+        expiryDate: '',
         lowStockThreshold: 5
       });
     }
@@ -195,6 +198,18 @@ export default function StockModal({ isOpen, onClose, onSubmit, initialData }: S
                       className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                       value={formData.lowStockThreshold}
                       onChange={e => setFormData({ ...formData, lowStockThreshold: parseInt(e.target.value) || 0 })}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">Expiry Date (Optional)</label>
+                  <div className="relative">
+                    <input
+                      type="date"
+                      className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                      value={formData.expiryDate}
+                      onChange={e => setFormData({ ...formData, expiryDate: e.target.value })}
                     />
                   </div>
                 </div>

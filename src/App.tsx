@@ -14,6 +14,8 @@ import { useInventory } from './hooks/useInventory';
 import Shell from './components/layout/Shell';
 import StatsGrid from './components/dashboard/StatsGrid';
 import StockChart from './components/dashboard/StockChart';
+import LowStockAlerts from './components/dashboard/LowStockAlerts';
+import ExpiringItemsAlerts from './components/dashboard/ExpiringItemsAlerts';
 import InventoryTable from './components/inventory/InventoryTable';
 import TransactionsList from './components/inventory/TransactionsList';
 import ReportsAnalytics from './components/reports/ReportsAnalytics';
@@ -98,7 +100,11 @@ export default function App() {
             <StatsGrid items={items} />
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <StockChart items={items} />
+              <div className="space-y-6">
+                <LowStockAlerts items={items} />
+                <ExpiringItemsAlerts items={items} />
+                <StockChart items={items} />
+              </div>
               <TransactionsList transactions={transactions.slice(0, 5)} />
             </div>
           </div>

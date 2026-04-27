@@ -43,6 +43,7 @@ service cloud.firestore {
                data.ownerId == request.auth.uid &&
                data.price is number &&
                (!('cost' in data.keys()) || data.cost is number) &&
+               (!('expiryDate' in data.keys()) || data.expiryDate is string) &&
                data.category is string &&
                data.createdAt is string &&
                data.updatedAt is string;

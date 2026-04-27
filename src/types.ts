@@ -7,6 +7,7 @@ export interface StockItem {
   unit: string;
   price: number;
   cost?: number;
+  expiryDate?: string;
   lowStockThreshold: number;
   ownerId: string;
   createdAt: string;
