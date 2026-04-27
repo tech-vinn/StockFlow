@@ -19,7 +19,7 @@ export default function Login({ onLogin, loading }: LoginProps) {
           <div className="inline-flex p-4 bg-indigo-600 rounded-3xl mb-6 shadow-xl shadow-indigo-200">
             <Package className="w-10 h-10 text-white" />
           </div>
-          <h1 className="text-4xl font-bold font-display mb-3">StockSync</h1>
+          <h1 className="text-4xl font-bold font-display mb-3">StockFlow</h1>
           <p className="text-gray-500 text-lg">Intelligent inventory management for modern businesses.</p>
         </div>
 

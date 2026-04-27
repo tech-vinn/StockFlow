@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Users, Mail, Calendar, Shield, ExternalLink, X } from 'lucide-react';
+import { Users, Mail, Calendar, Shield, ExternalLink, X, Bell } from 'lucide-react';
 import { UserProfile } from '../../types';
 import { formatDate, cn } from '../../lib/utils';
 
@@ -20,6 +20,38 @@ export default function TeamManagement({ members, loading }: TeamManagementProps
 
   return (
     <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-indigo-600 p-6 rounded-2xl text-white shadow-lg shadow-indigo-200">
+          <div className="flex items-center space-x-3 mb-4">
+            <div className="p-2 bg-white/20 rounded-xl">
+              <Bell className="w-5 h-5" />
+            </div>
+            <h4 className="font-bold">Email Notifications</h4>
+          </div>
+          <p className="text-indigo-100 text-sm mb-4">
+            You are set to receive registration alerts at <span className="font-bold">kaalekelvin47@gmail.com</span>.
+          </p>
+          <div className="bg-white/10 px-3 py-2 rounded-lg border border-white/20 text-xs">
+            <p className="flex items-center">
+              <Shield className="w-3 h-3 mr-2" />
+              Requires RESEND_API_KEY in Secrets
+            </p>
+          </div>
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 md:col-span-2">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-slate-500 text-sm font-medium">Total Registered Users</p>
+              <h3 className="text-3xl font-bold mt-1 text-slate-900 tabular-nums">{members.length}</h3>
+            </div>
+            <div className="p-3 bg-slate-100 rounded-xl text-slate-600">
+              <Users className="w-6 h-6" />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
         <div className="p-6 border-b border-slate-100">
           <h3 className="text-lg font-bold text-slate-900">User Management</h3>

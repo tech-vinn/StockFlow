@@ -39,6 +39,16 @@ export function useAuth() {
           };
           await setDoc(userDocRef, newProfile);
           setProfile(newProfile);
+
+          // Notify admin of new joiner via email
+          fetch('/api/notifications/new-user', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              displayName: newProfile.displayName,
+              email: newProfile.email
+            })
+          }).catch(err => console.error('Failed to send join notification', err));
         }
       } else {
         setProfile(null);

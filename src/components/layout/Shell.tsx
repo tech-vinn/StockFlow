@@ -43,7 +43,7 @@ export default function Shell({ children, activeTab, setActiveTab, user, onLogou
         <div className="flex flex-col flex-grow pt-5 pb-4 overflow-y-auto">
           <div className="flex items-center flex-shrink-0 px-6 space-x-2 mb-6">
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold">S</div>
-            <span className="text-xl font-bold font-display text-slate-800 tracking-tight uppercase">StockCore</span>
+            <span className="text-xl font-bold font-display text-slate-800 tracking-tight uppercase">StockFlow</span>
           </div>
           <nav className="mt-4 flex-1 px-3 space-y-1">
             {navigation.map((item) => (
@@ -125,7 +125,7 @@ export default function Shell({ children, activeTab, setActiveTab, user, onLogou
             <div className="flex items-center justify-between px-4 h-16 border-b border-gray-200">
               <div className="flex items-center space-x-2">
                 <Package className="w-6 h-6 text-indigo-600" />
-                <span className="text-xl font-bold font-display">StockSync</span>
+                <span className="text-xl font-bold font-display">StockFlow</span>
               </div>
               <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 -mr-2 rounded-md hover:bg-gray-100">
                 <X className="w-6 h-6" />
@@ -169,7 +169,7 @@ export default function Shell({ children, activeTab, setActiveTab, user, onLogou
         <header className="md:hidden bg-white border-b border-gray-200 px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Package className="w-6 h-6 text-indigo-600" />
-            <span className="text-xl font-bold font-display">StockSync</span>
+            <span className="text-xl font-bold font-display">StockFlow</span>
           </div>
           <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 -mr-2 rounded-md hover:bg-gray-100">
             <Menu className="w-6 h-6" />
